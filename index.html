@@ -28,20 +28,6 @@
   --serif:"Bricolage Grotesque", Georgia, serif;
   --script:"Grand Hotel", "Brush Script MT", cursive;
   --sans:"Hanken Grotesk", system-ui, sans-serif;
-  /* ---- tweakable feel variables (driven by the Tweaks panel) ---- */
-  --grain-opacity:.05;
-  --grade-sat:.78;
-  --grade-contrast:1.05;
-  --grade-bright:1.02;
-  --grade-sepia:.24;
-  --ov-a:rgba(232,148,26,.16);
-  --ov-b:rgba(43,170,173,.10);
-  --hero-tint-a:rgba(28,126,128,.24);
-  --hero-tint-b:rgba(232,148,26,.08);
-  --band-tint:rgba(28,126,128,.35);
-  --vignette:0;
-  --reveal-travel:22px;
-  --marquee-dur:40s;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -59,14 +45,8 @@ a{color:inherit;text-decoration:none}
 /* ============================ GRAIN ============================ */
 .grain{
   position:fixed;inset:0;z-index:9000;pointer-events:none;
-  opacity:var(--grain-opacity);mix-blend-mode:multiply;
+  opacity:.05;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-/* darkroom vignette — fades the frame edges as Vintage Wash increases */
-.vignette{
-  position:fixed;inset:0;z-index:8990;pointer-events:none;
-  opacity:var(--vignette);transition:opacity .5s var(--ease);
-  background:radial-gradient(120% 100% at 50% 42%, transparent 52%, rgba(10,10,10,.5) 100%);
 }
 
 /* ============================ TYPE ============================ */
@@ -109,13 +89,12 @@ section{position:relative}
 .grade{position:relative;overflow:hidden}
 .grade > img,.grade > video{
   width:100%;height:100%;object-fit:cover;
-  filter:saturate(var(--grade-sat)) contrast(var(--grade-contrast)) brightness(var(--grade-bright)) sepia(var(--grade-sepia));
-  transition:filter .5s var(--ease);
+  filter:saturate(.78) contrast(1.05) brightness(1.02) sepia(.24);
 }
 .grade::after{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(150deg, var(--ov-a), var(--ov-b) 60%, rgba(10,10,10,.20));
+    linear-gradient(150deg, rgba(232,148,26,.16), rgba(43,170,173,.10) 60%, rgba(10,10,10,.20));
   mix-blend-mode:multiply;
 }
 .grade::before{
@@ -203,7 +182,7 @@ section{position:relative}
   content:"";position:absolute;inset:0;
   background:
     linear-gradient(180deg, rgba(10,10,10,.42) 0%, rgba(10,10,10,.08) 32%, rgba(10,10,10,.22) 62%, rgba(10,10,10,.86) 100%),
-    linear-gradient(115deg, var(--hero-tint-a), var(--hero-tint-b) 70%);
+    linear-gradient(115deg, rgba(28,126,128,.24), rgba(232,148,26,.08) 70%);
   mix-blend-mode:multiply;
 }
 .hero-bg::before{
@@ -243,7 +222,7 @@ section{position:relative}
   overflow:hidden;border-top:2px solid var(--black);border-bottom:2px solid var(--black);
   padding:13px 0;position:relative;
 }
-.marquee-track{display:flex;gap:0;width:max-content;animation:scroll-x var(--marquee-dur) linear infinite}
+.marquee-track{display:flex;gap:0;width:max-content;animation:scroll-x 38s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .marquee span{
   font-family:var(--serif);font-weight:700;font-style:normal;
@@ -303,13 +282,28 @@ section{position:relative}
 /* ============================ COMMUNITY BAND ============================ */
 .band{height:88vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--cream);overflow:hidden}
 .band-bg{position:absolute;inset:0;z-index:0}
-.band-bg video,.band-bg img{width:100%;height:100%;object-fit:cover;filter:saturate(var(--grade-sat)) contrast(var(--grade-contrast)) sepia(var(--grade-sepia)) brightness(calc(var(--grade-bright) * .9));transition:filter .5s var(--ease)}
-.band-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),var(--band-tint) 50%,rgba(10,10,10,.7));mix-blend-mode:multiply}
+.band-bg video,.band-bg img{width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.05) sepia(.22) brightness(.92)}
+.band-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(28,126,128,.35) 50%,rgba(10,10,10,.7));mix-blend-mode:multiply}
 .band-inner{position:relative;z-index:3;padding:0 24px}
 .band .eyebrow{color:var(--amber)}
 .band h2{font-size:clamp(2.8rem,7vw,6rem);font-weight:600;margin:22px 0 4.5rem;padding-bottom:.22em;line-height:1.2;letter-spacing:-.02em;text-shadow:0 6px 40px rgba(10,10,10,.4)}
 .band h2 em{font-style:normal;color:var(--amber)}
 .band p{max-width:42ch;margin:0 auto 32px;font-size:clamp(1.05rem,1.7vw,1.3rem);line-height:1.5;color:rgba(245,240,232,.9)}
+
+/* ============================ COMING SOON ============================ */
+.soon{background:var(--black);color:var(--cream);overflow:hidden}
+.soon-watermark{position:absolute;right:-6%;top:50%;transform:translateY(-50%);width:min(560px,52vw);opacity:.06;z-index:0;pointer-events:none}
+.soon-inner{position:relative;z-index:2}
+.soon-head{max-width:30ch;margin-bottom:54px}
+.soon .eyebrow{color:var(--coral)}
+.soon h2{font-size:clamp(2.6rem,5.4vw,4.6rem);font-weight:600;margin-top:18px}
+.soon h2 em{font-style:normal;color:var(--teal)}
+.soon-list{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.soon-item{border-top:2px solid var(--line-cream);padding-top:24px;position:relative}
+.soon-item .num{font-family:var(--serif);font-size:1rem;color:var(--amber);font-weight:700;letter-spacing:.1em}
+.soon-item h3{font-family:var(--serif);font-size:1.85rem;font-weight:600;margin:16px 0 10px;color:var(--cream)}
+.soon-item p{font-size:.96rem;line-height:1.55;color:rgba(245,240,232,.62)}
+.soon-item .chip{display:inline-block;margin-top:18px;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--teal);border:1px solid rgba(43,170,173,.4);padding:6px 11px;border-radius:100px}
 
 /* ============================ HOURS & PRICING ============================ */
 .pricing{background:var(--cream)}
@@ -363,7 +357,7 @@ section{position:relative}
 .loc-detail p a:hover{color:var(--amber-deep)}
 .loc-visual{position:relative;display:grid;grid-template-rows:1fr 1fr;min-height:520px}
 .loc-video{position:relative;overflow:hidden;border-bottom:3px solid var(--amber)}
-.loc-video video{width:100%;height:100%;object-fit:cover;filter:saturate(var(--grade-sat)) contrast(var(--grade-contrast)) sepia(var(--grade-sepia)) brightness(calc(var(--grade-bright) + .02));transition:filter .5s var(--ease)}
+.loc-video video,.loc-video img{width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(1.04) sepia(.18) brightness(1.04)}
 .loc-video::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(43,170,173,.14),rgba(10,10,10,.12));mix-blend-mode:multiply}
 .loc-video .pin-badge{position:absolute;top:18px;left:18px;z-index:2;display:inline-flex;align-items:center;gap:8px;background:rgba(10,10,10,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--line-cream);color:var(--cream);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border-radius:100px}
 .loc-map{width:100%;height:100%;border:none;display:block;filter:grayscale(.22) sepia(.1)}
@@ -387,7 +381,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
 .foot-bottom .stars b{color:var(--cream);font-weight:700}
 
 /* ============================ REVEAL ============================ */
-.reveal{opacity:0;transform:translateY(var(--reveal-travel));transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
@@ -403,6 +397,8 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
   .about-media{max-width:480px}
   .fac-grid{grid-template-columns:repeat(2,1fr)}
   .fac-card.feature{grid-column:span 2;grid-row:span 1;min-height:340px}
+  .soon-list{grid-template-columns:1fr;gap:0}
+  .soon-item{border-top:1px solid var(--line-cream);padding:24px 0}
   .pricing-grid{grid-template-columns:1fr}
   .loc-grid{grid-template-columns:1fr}
   .loc-visual{min-height:480px;order:-1}
@@ -436,7 +432,6 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
   </svg>
 </template>
 <div class="grain"></div>
-<div class="vignette"></div>
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav">
@@ -448,6 +443,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#facilities">Facilities</a>
+      <a href="#soon">Coming Soon</a>
       <a href="#pricing">Hours &amp; Pricing</a>
       <a href="#location">Find Us</a>
     </div>
@@ -459,6 +455,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
 <div class="mobile-menu" id="mobileMenu">
   <a href="#about">About</a>
   <a href="#facilities">Facilities</a>
+  <a href="#soon">Coming Soon</a>
   <a href="#pricing">Hours &amp; Pricing</a>
   <a href="#location">Find Us</a>
   <a href="https://playtomic.com/clubs/te-amo-padel-at-the-hayes" target="_blank" rel="noopener" class="btn btn-amber">Book a Court →</a>
@@ -536,15 +533,15 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
       <div class="fac-card reveal">
         <div class="fac-ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 16V8h3.5a2.5 2.5 0 0 1 0 5H9"/></svg></div>
         <h3>Free Parking</h3>
-        <p>Plenty of free on-site spaces — just enter your number plate on arrival.</p>
+        <p>Plenty of on-site spaces, free for every player. Roll up and play.</p>
       </div>
       <!-- FEATURE café -->
       <div class="fac-card feature reveal">
-        <span class="tag">Café</span>
-        <div class="grade"><img src="assets/cafe-terrace.jpg" alt="Café and snack bar seating" /></div>
+        <span class="tag">Café &amp; Bar</span>
+        <div class="grade"><img src="assets/cafe-terrace.jpg" alt="Sunny café terrace seating" /></div>
         <div class="feature-body">
-          <h3>Café &amp; snack bar</h3>
-          <p>A café and snack bar on site — a coffee before, a cold drink and a bite after.</p>
+          <h3>The terrace café &amp; bar</h3>
+          <p>Coffee before, cold drinks after. A sun-trap terrace to gather, refuel and watch the action.</p>
         </div>
       </div>
       <div class="fac-card reveal">
@@ -555,7 +552,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
       <div class="fac-card reveal">
         <div class="fac-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg></div>
         <h3>Coaching</h3>
-        <p>Led by Head Coach Laura — Social Padel evenings for Beginner/Improver &amp; Intermediate players (60 min, from £8), plus lessons and clinics for all levels.</p>
+        <p>Lessons and clinics for beginners to advanced — improve fast, the fun way.</p>
       </div>
       <div class="fac-card reveal">
         <div class="fac-ico"><svg viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></div>
@@ -569,15 +566,44 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
 <!-- ============================ COMMUNITY BAND ============================ -->
 <section class="band" id="community">
   <div class="band-bg">
-    <video autoplay muted loop playsinline poster="assets/community-lifestyle.jpg">
-      <source src="assets/section-bg.mp4" type="video/mp4" />
-    </video>
+    <img src="assets/community-lifestyle.jpg" alt="Padel community lifestyle" />
   </div>
   <div class="band-inner">
     <span class="eyebrow center reveal">More than a court</span>
     <h2 class="reveal">A place to <em>belong.</em></h2>
     <p class="reveal">Leagues, socials, friendly mix-ins and late-summer nights. Te Amo Padel is where Alvechurch comes to play — and stays to make friends.</p>
     <a href="https://playtomic.com/clubs/te-amo-padel-at-the-hayes" target="_blank" rel="noopener" class="btn btn-amber reveal">Join the community <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- ============================ COMING SOON ============================ -->
+<section class="soon sec-pad" id="soon">
+  <img class="soon-watermark" src="assets/logo-cut.png" alt="" aria-hidden="true" />
+  <div class="wrap soon-inner">
+    <div class="soon-head">
+      <span class="eyebrow">On the horizon</span>
+      <h2 class="reveal">The club is <em>growing.</em></h2>
+    </div>
+    <div class="soon-list">
+      <div class="soon-item reveal">
+        <span class="num">01</span>
+        <h3>Three new courts</h3>
+        <p>Doubling our capacity to six courts — more peak-time slots, more leagues, more play.</p>
+        <span class="chip">Coming Soon</span>
+      </div>
+      <div class="soon-item reveal">
+        <span class="num">02</span>
+        <h3>New café &amp; bar</h3>
+        <p>A bigger, better hub to eat, drink and watch — the social heart of the club, reimagined.</p>
+        <span class="chip">Coming Soon</span>
+      </div>
+      <div class="soon-item reveal">
+        <span class="num">03</span>
+        <h3>Upgraded changing areas</h3>
+        <p>Refurbished changing rooms, showers and lockers for a premium pre- and post-match experience.</p>
+        <span class="chip">Coming Soon</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -598,11 +624,17 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
       <span class="eyebrow" style="color:var(--amber-deep)">Court Pricing</span>
       <div class="price-intro reveal">
         <div class="grade price-thumb"><img src="assets/detail-balls.jpg" alt="Padel balls by the net" style="height:100%" /></div>
-        <p>Priced per player for a 90-minute session — grab three friends and split a court.</p>
+        <p>Simple, fair pricing — per player, per 90-minute session. Grab three friends and split a court.</p>
       </div>
-      <div class="ticket offpeak reveal" style="display:block;text-align:left">
-        <div class="t-label" style="width:100%"><b style="font-size:1.15rem">Live pricing on Playtomic</b><span style="margin-top:10px;letter-spacing:0;text-transform:none;font-size:.96rem;line-height:1.55;opacity:.78;font-weight:500">Peak and off-peak slots, with real-time court availability. See today's prices and book your session in a couple of taps.</span></div>
+      <div class="ticket offpeak reveal">
+        <div class="t-label"><b>Off-Peak</b><span>Per player · 90 min</span></div>
+        <div class="t-price"><small>£</small>9</div>
       </div>
+      <div class="ticket peak reveal">
+        <div class="t-label"><b>Peak</b><span>Per player · 90 min</span></div>
+        <div class="t-price"><small>£</small>12</div>
+      </div>
+      <p class="price-foot">All bookings are made securely through Playtomic, where you'll see live court availability for peak and off-peak slots.</p>
       <a href="https://playtomic.com/clubs/te-amo-padel-at-the-hayes" target="_blank" rel="noopener" class="btn btn-ink btn-block reveal">Check availability &amp; book <span class="arrow">→</span></a>
     </div>
   </div>
@@ -634,9 +666,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
       <div class="loc-visual">
         <div class="loc-video">
           <span class="pin-badge">◉ Aerial view</span>
-          <video autoplay muted loop playsinline poster="assets/coaching-welcome.jpg">
-            <source src="assets/location-aerial.mp4" type="video/mp4" />
-          </video>
+          <img src="assets/coaching-welcome.jpg" alt="Aerial view of the club" />
         </div>
         <iframe class="loc-map" title="Map to Te Amo Padel" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=300+Redhill+Rd+Alvechurch+B38+9EL&output=embed"></iframe>
       </div>
@@ -658,6 +688,7 @@ footer{background:var(--black);color:var(--cream);padding:84px 0 36px;position:r
         <h5>Explore</h5>
         <a href="#about">About the Club</a>
         <a href="#facilities">Facilities</a>
+        <a href="#soon">Coming Soon</a>
         <a href="#pricing">Hours &amp; Pricing</a>
         <a href="#location">Find Us</a>
       </div>
@@ -710,7 +741,7 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 /* stagger siblings inside a shared parent group */
-document.querySelectorAll('.fac-grid, .hero-actions, .stat-row, .price-col').forEach(group => {
+document.querySelectorAll('.fac-grid, .soon-list, .hero-actions, .stat-row, .price-col').forEach(group => {
   [...group.querySelectorAll('.reveal')].forEach((el, i) => {
     el.style.transitionDelay = (i * 90) + 'ms';
   });
@@ -721,11 +752,5 @@ document.querySelectorAll('video').forEach(v => {
   v.play().catch(()=>{});
 });
 </script>
-<div id="tweaks-root"></div>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="teamo-tweaks.jsx"></script>
 </body>
 </html>
